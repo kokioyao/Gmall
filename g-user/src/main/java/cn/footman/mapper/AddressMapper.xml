@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.footman.mapper.AddressMapper">
+
+
+    <select id="selectAddress" parameterType="int" resultType="cn.footman.bean.T_MALL_ADDRESS">
+        select * from t_mall_address where id  = #{address_id}
+    </select>
+
+
+
+    <select id="selectAddresses" parameterType="cn.footman.bean.T_MALL_USER_ACCOUNT"
+            resultType="cn.footman.bean.T_MALL_ADDRESS">
+        select * from t_mall_address where yh_id = #{id}
+    </select>
+
+</mapper>

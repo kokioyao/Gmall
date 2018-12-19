@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.footman.mapper.ListMapper">
+
+
+
+    <select id="selectListByAttr" resultMap="selectListByFlbh2Map" parameterType="Map">
+        select
+        spu.id as spu_id,spu.*,
+        sku.id as sku_id,sku.* ,
+        tm.id as tm_id ,tm.*
+        from t_mall_product spu,t_mall_sku sku,t_mall_trade_mark tm
+        where spu.id = sku.shp_id
+        and spu.pp_id = tm.Id
+        and spu.flbh2=#{flbh2}
+        ${subSql}
+    </select>
+
+
+
+
+    <resultMap id="selectListByFlbh2Map" type="cn.footman.bean.OBJECT_T_MALL_SKU" autoMapping="true">
+        <id column="sku_id" property="id"></id>
+        <association property="spu" javaType="cn.footman.bean.T_MALL_PRODUCT" autoMapping="true">
+            <id column="spu_id" property="id"></id>
+        </association>
+        <association property="tm" javaType="cn.footman.bean.T_MALL_TRADE_MARK" autoMapping="true">
+            <id column="tm_id" property="id"></id>
+        </association>
+    </resultMap>
+    
+    <select id="selectListByFlbh2" parameterType="int" resultMap="selectListByFlbh2Map">
+        select
+        spu.id as spu_id,spu.*,
+        sku.id as sku_id,sku.* ,
+        tm.id as tm_id ,tm.*
+        from t_mall_product spu,t_mall_sku sku,t_mall_trade_mark tm
+        where spu.id = sku.shp_id
+        and spu.pp_id = tm.Id
+        and spu.flbh2=#{flbh2}
+    </select>
+
+</mapper>

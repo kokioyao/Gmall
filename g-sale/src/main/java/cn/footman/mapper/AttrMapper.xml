@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.footman.mapper.AttrMapper">
+
+	<resultMap id="attrlist" type="cn.footman.bean.OBJECT_T_MALL_ATTR">
+		<id column="attr_id" property="id"/>
+		<result property="shxm_mch" column="shxm_mch"/>
+		<result property="chjshj" column="chjshj"/>
+		<collection property="list_value" javaType="List" ofType="cn.footman.bean.T_MALL_VALUE" autoMapping="true">
+			<id property="id" column="val_id"/>
+			<!--需要将表的主键对应上-->
+		</collection>
+	</resultMap>
+	<select id="select_attr_list" parameterType="int" resultMap="attrlist">
+		select t.Id as attr_id, t.shxm_mch, t.chjshj,v.Id as val_id,v.shxzh,v.shxm_id,v.shxzh_mch from t_mall_attr t , t_mall_value v where t.Id = v.shxm_id and t.flbh2 = #{flbh2}
+	</select>
+
+	<insert id="insert_attr" useGeneratedKeys="true" keyColumn="id"
+		keyProperty="attr.id">
+		insert into t_mall_attr(
+		shxm_mch,
+		flbh2
+		)
+		values
+		(
+		#{attr.shxm_mch},
+		#{flbh2}
+		)
+	</insert>
+
+	<insert id="insert_values">
+		insert into t_mall_value(
+		shxzh,
+		shxm_id,
+		shxzh_mch
+		)
+		values
+		<foreach collection="list_value" item="val" separator=",">
+			(
+			#{val.shxzh},
+			#{attr_id},
+			#{val.shxzh_mch}
+			)
+		</foreach>
+	</insert>
+
+
+</mapper>
